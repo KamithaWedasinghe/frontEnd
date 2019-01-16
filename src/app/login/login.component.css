@@ -1,0 +1,13 @@
+*{
+    color: black
+}
+.login{
+    margin-top: 50px;
+}
+a, a:hover {
+    text-decoration: none;
+    font-weight: 600;
+    color: black
+    
+}
+

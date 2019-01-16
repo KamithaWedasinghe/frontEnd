@@ -1,0 +1,118 @@
+<div class="container-fluid" *ngIf="!isActiveCreateBoq">
+  <div class="table-responsive">
+
+    <table class="table table-striped table-hover">
+
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+         <!--  <th scope="col">Contract Boq Name</th>
+          <th scope="col">Sheet Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">File Name</th> -->
+
+          <th scope="col">Erp Item Code</th>
+          <th scope="col">Description</th>
+         <!--  <th scope="col">Unit</th> -->
+          <th scope="col">Unit Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">editor</th>
+          <th scope="col">Erp Total Price</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of contractBoqListItems; index as i;">
+          <th scope="row">{{i+1}}</th>
+          <!-- <td>{{item?.metaContractBoq?.area}}</td>
+          <td>{{item?.metaContractBoq?.sheetName}}</td>
+          <td>{{item?.metaContractBoq?.stageName}}</td>
+          <td>{{item?.metaContractBoq?.area}}</td> -->
+          <td>{{item?.data?.erpItemCode}}</td>
+          <td>{{item?.data?.description}}</td>
+          <!-- <td>{{item?.data?.unit}}</td> -->
+          <td>{{item?.data?.erpUnitPrice}}</td>
+          <td>{{item?.data?.quantity}}</td>
+          <td style="width:10%">
+            <!--  <input type="text" 
+                    [readonly]="isReadOnly" 
+                    #inputName 
+                    (blur)="quantityChecker(item?.data?.editedQuantity,inputName.value)" 
+                    [value]="item?.data?.editedQuantity"
+                    (click)="edit(i)"
+                    [ngClass]="{'quantityError': isInvalidQuantity && (i === editedRowNumber),
+                  'input' : !(isInvalidQuantity && (i === editedRowNumber))}"> -->
+            <input type="text" [value]="item?.data?.editedQuantity">
+
+          </td>
+          <td>{{item?.data?.erpTotalPrice}}</td>
+
+          <td><button class="btn btn-sm btn-outline-danger" (click)="removeFromCartList(item)">Remove</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container" *ngIf="isActiveCreateBoq">
+  <div class="row seperator">
+    <div class="col-md-6 col-lg-8 col-xs-12 offset-md-3 offset-lg-2">
+      <div class="card">
+        <div class="card-header text-light bg-info">
+          <h4>Create BOQ</h4>
+        </div>
+        <div class="card-body text-dark ">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+              <label for="boqNumber">Boq Number</label>
+              <input type="text" name="boqNumber" id="boqNumber" class="form-control" formControlName="boqNumber">
+              <div *ngIf="form.get('boqNumber').touched && form.get('boqNumber').invalid" class="alert alert-danger">
+                <div *ngIf="form.get('boqNumber').errors.required">
+                  Boq Number is required.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="boqReference">Boq Reference</label>
+              <input type="text" name="boqReference" id="boqReference" class="form-control" formControlName="boqReference">
+              <div *ngIf="form.get('boqReference').touched && form.get('boqReference').invalid" class="alert alert-danger">
+                <div *ngIf="form.get('boqReference').errors.required">
+                  Boq Reference is required.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" name="description" id="description" class="form-control" formControlName="description">
+              <div *ngIf="form.get('description').touched && form.get('description').invalid" class="alert alert-danger">
+                <div *ngIf="form.get('description').errors.required">
+                  Description is required.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="engineerName">EngineerName</label>
+              <!-- <input type="text" name="engineerName" id="engineerName" class="form-control" formControlName="engineerName"> -->
+              <input type="text" name="engineerName" id="engineerName" class="form-control" formControlName="engineerName" [(ngModel)]="model" [ngbTypeahead]="search"/>
+              <div *ngIf="form.get('engineerName').touched && form.get('engineerName').invalid" class="alert alert-danger">
+                <div *ngIf="form.get('engineerName').errors.required">
+                  EngineerName is required.
+                </div>
+              </div>
+            </div>
+
+            <h5>Attachment</h5>
+            <app-upload-file (fileNameEvent)="receivefileName($event)"></app-upload-file>
+
+            <div class="form-group text-center">
+              <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save Boq</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

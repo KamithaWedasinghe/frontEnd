@@ -1,0 +1,264 @@
+<!-- <div class="container">
+
+
+  
+  <div class="modal fade" id="createStage" tabindex="-1" role="dialog" aria-labelledby="createStageTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createStageTitle">Add New Stage</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          
+            <div class="form-group">
+              <label for="stageName">New Stage Name</label>
+              <input type="text" class="form-control" [(ngModel)]="stageName" id="stageName" aria-describedby="stageHelp" placeholder="Enter Stage">
+            </div>
+            <div class="form-group">
+              <label for="area">Select Area</label>
+              <ng-multiselect-dropdown [placeholder]="'Select Area'"  [data]="dropdownList" [(ngModel)]="selectedItems"
+                [settings]="dropdownSettings" name="areas" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+            </div>
+
+         
+
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success mx-auto" (click)="createStage()">Save Stage</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="createArea" tabindex="-1" role="dialog" aria-labelledby="createAreaTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createStageTitle">Add New Area</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+  
+            
+              <div class="form-group">
+                <label for="stageName">New Area Name</label>
+                <input type="text" name="areaName" [(ngModel)]="areaName" class="form-control" id="areaName" aria-describedby="AreaHelp" placeholder="Enter Area">
+              </div>
+            
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success mx-auto" (click)="createNewArea()">Save Area</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <div class="modal fade" id="createSpecificArea" tabindex="-1" role="dialog" aria-labelledby="createSpecificAreaTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createSpecificAreaTitle">Add New Area To Stage</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          
+          <div class="form-group">
+            <label for="area">Select Area</label>
+            <ng-multiselect-dropdown [placeholder]="'Select Area'"  [data]="dropdownList" [(ngModel)]="selectedItems"
+              [settings]="dropdownSettings" name="areas" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success mx-auto" (click)="addSpecificArea()">Save Areas</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div>
+    <div *ngFor="let stage of stages">
+      <div class="card seperator">
+        <div class="card-body text-center">
+          <h4 class="card-title">{{stage.stageName}}</h4>
+          <ul class="list-inline">
+            <li class="list-inline-item" *ngFor="let area of stage.areas">
+              <div class="dropdown ">
+                <button class="btn btn-primary btn-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  {{area.areaName}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" (click) = "routeToContactBoq(stage.stageName,area.areaName,supply.name)" #supply name="supply" routerLinkActive="active">Supply</a>
+                  <a class="dropdown-item" (click) = "routeToContactBoq(stage.stageName,area.areaName,implementation.name)" #implementation  name="implementation" routerLinkActive="active">Imlimentation</a>
+                </div>
+
+              </div>
+            </li>
+            <li class="list-inline-item">
+              <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#createSpecificArea" (click)="beforeAddSpecificArea(stage)">Add more area</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="w-100 d-none d-sm-block d-md-none"></div>
+    </div>
+    
+    <div class="card seperator">
+        <div class="card-body text-center">
+          <h4 class="card-title">Add New Stage</h4>
+          <button class="btn btn-info mr-5 mr-md-10 mr-lg-20" data-toggle="modal" data-target="#createStage">New Stage</button>
+          <button class="btn btn-warning " data-toggle="modal" data-target="#createArea">New Area</button>
+        </div>
+      </div>
+  </div>
+</div> -->
+
+
+<div class="container">
+
+
+  <!--stage creat modal -->
+  <div class="modal fade" id="createStage" tabindex="-1" role="dialog" aria-labelledby="createStageTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createStageTitle">Add New Stage</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="form-group">
+            <label for="stageName">New Stage Name</label>
+            <input type="text" class="form-control" [(ngModel)]="stageName" id="stageName" aria-describedby="stageHelp" placeholder="Enter Stage">
+          </div>
+          <div class="form-group">
+            <label for="area">Select Area</label>
+            <ng-multiselect-dropdown [placeholder]="'Select Area'" [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+              name="areas" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success mx-auto" (click)="createStage()" data-dismiss="modal" aria-label="Close">Save Stage</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--area creat modal -->
+  <div class="modal fade" id="createArea" tabindex="-1" role="dialog" aria-labelledby="createAreaTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createStageTitle">Add New Area</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="form-group">
+            <label for="stageName">New Area Name</label>
+            <input type="text" name="areaName" [(ngModel)]="areaName" class="form-control" id="areaName" aria-describedby="AreaHelp"
+              placeholder="Enter Area">
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success mx-auto" (click)="createNewArea()"  data-dismiss="modal" aria-label="Close">Save Area</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--area creat specific modal -->
+  <div class="modal fade" id="createSpecificArea" tabindex="-1" role="dialog" aria-labelledby="createSpecificAreaTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createSpecificAreaTitle">Add New Area To Stage</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="form-group">
+            <label for="area">Select Area</label>
+            <ng-multiselect-dropdown [placeholder]="'Select Area'" [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+              name="areas" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success mx-auto" (click)="addSpecificArea()" data-dismiss="modal" aria-label="Close">Save Areas</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div>
+    <div *ngFor="let stage of stages">
+      <div class="card seperator">
+        <div class="card-body text-center">
+          <h4 class="card-title">{{stage.stageName}}</h4>
+          <ul class="list-inline">
+            <li class="list-inline-item" *ngFor="let area of stage.areas">
+              <div class="dropdown ">
+                <button class="btn btn-primary btn-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  {{area.areaName}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" (click)="routeToContactBoq(stage.stageName,area.areaName,supply.name)" #supply name="supply" routerLinkActive="active">Supply</a>
+                  <a class="dropdown-item" (click)="routeToContactBoq(stage.stageName,area.areaName,implementation.name)" #implementation name="implementation"
+                    routerLinkActive="active">Imlimentation</a>
+                </div>
+
+              </div>
+            </li>
+            <li class="list-inline-item">
+              <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#createSpecificArea" (click)="beforeAddSpecificArea(stage)">Add more area</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="w-100 d-none d-sm-block d-md-none"></div>
+    </div>
+    <!-- Add new Main Stage And Main Area -->
+    <div class="card seperator">
+      <div class="card-body text-center">
+        <h4 class="card-title">Add New Stage</h4>
+        <button class="btn btn-info mr-5 mr-md-10 mr-lg-20" data-toggle="modal" data-target="#createStage">New Stage</button>
+        <button class="btn btn-warning " data-toggle="modal" data-target="#createArea">New Area</button>
+      </div>
+    </div>
+  </div>
+</div>

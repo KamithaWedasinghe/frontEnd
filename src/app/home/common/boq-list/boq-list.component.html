@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+header
+        </div>
+        <div class="card-body">
+
+          <div class="table-responsive-sm table-responsive-md table-responsive-lg">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Boq Number</th>
+                  <th scope="col">Boq Reference</th>
+                  <th scope="col">Engineer Name</th>
+                  <th>status</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let boq of boqList;index as i;">
+                  <th scope="row">1</th>
+                  <td>{{boq.boqNumber}}</td>
+                  <td>{{boq.boqReference}}</td>
+                  <td>{{boq.engineerName}}</td>
+                  <td>{{boq?.isForwarded ? "forwaded" : "pending"}}</td>
+                  <td><button class="btn btn-sm btn-info btn-link" (click)="viewBoq(boq)">View</button></td>
+                  <td><button *ngIf="!boq?.isForwarded && admin" class="btn btn-sm btn-warning btn-link" (click)="forwardBoqToEngineer(boq)">Forward</button></td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        
+        </div>
+        <div class="card-footer"></div>
+footer
+      </div>
+    </div>
+  </div>
+</div>

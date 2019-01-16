@@ -1,0 +1,163 @@
+<div class="container ">
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Register Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row text-center">
+            <div class="col">
+              <button type="button" class="btn btn-success" data-dismiss="modal">
+                <a routerLink="/register" [queryParams]="{user : 'mobitel',role : '1'}">Mobitel User</a>
+              </button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                <a routerLink="/register" [queryParams]="{user : 'supplier',role : '2'}">Supplier</a>
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row login">
+    <div class="col-md-6 col-lg-8 col-xs-12 offset-md-3 offset-lg-2">
+      <div class="card">
+        <div class="card-header text-light bg-info ">
+          <h4>Login Form</h4>
+        </div>
+        <div class="card-body text-dark ">
+          <form #f="ngForm" (ngSubmit)="login(f.value)">
+            <div *ngIf="inValidLogin" class="alert alert-danger">
+              Invalid userName or/and password
+            </div>
+            <!-- <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" name="email" ngModel id="email" class="form-control">
+            </div> -->
+            <div class="form-group">
+              <label for="userName">User Name</label>
+              <input type="text" name="userName" ngModel id="userName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" name="password" ngModel id="password" class="form-control">
+            </div>
+            <div class="text-center">
+              <button class="btn btn-primary" type="submit">Login</button>
+            </div>
+            register <i data-toggle="modal" data-target="#exampleModalCenter">here</i>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- <div class="container">
+    <div class="row login">
+      <div class="col-md-6 col-lg-8 col-xs-12 offset-md-3 offset-lg-2">
+        <div class="card">
+          <div class="card-header text-light bg-info">
+            <h4>Register Form</h4>
+          </div>
+          <div class="card-body text-dark ">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" class="form-control" formControlName="firstName">
+                <div *ngIf="form.get('firstName').touched && form.get('firstName').invalid" class="alert alert-danger">
+                  <div *ngIf="form.get('firstName').errors.required">
+                    FirstName is required.
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" class="form-control" formControlName="lastName">
+                <div *ngIf="form.get('lastName').touched && form.get('lastName').invalid" class="alert alert-danger">
+                  <div *ngIf="form.get('lastName').errors.required">
+                    Last Name is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" formControlName="email">
+                <div *ngIf="(form.get('email').touched || form.get('email').dirty) && form.get('email').invalid" class="alert alert-danger">
+                  <div *ngIf="form.get('email').errors.required">
+                    Email is required.
+                  </div>
+                  <div *ngIf="form.get('email').errors.pattern">
+                    Email is invalid.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" formControlName="password">
+                <div *ngIf="(form.get('password').touched || form.get('password').dirty ) && form.get('password').invalid" class="alert alert-danger">
+                  <div *ngIf="form.get('password').errors.required">
+                    Password is required.
+                  </div>
+                  <div *ngIf="form.get('password').errors.pattern">
+                    Password is invalid.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" formControlName="confirmPassword">
+                <div *ngIf="form.get('confirmPassword').touched && form.get('confirmPassword').invalid" class="alert alert-danger">
+                  <div *ngIf="form.get('confirmPassword').errors.required">
+                    Confirm Password is required.
+                  </div>
+                  <div *ngIf="form.get('confirmPassword').errors.pattern">
+                    Confirm Password is required.
+                  </div>
+  
+                </div>
+  
+              </div>
+  
+              <div class="form-group" *ngIf="isSupplier">
+                <label for="organization">Organization</label>
+                <select class="form-control" formControlName="organization" id="organization">
+                  <option value="huawei">Huawei</option>
+                  <option value="zte">Zte</option>
+                </select>
+  
+              </div>
+              <div class="form-group text-center">
+                  <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Register</button>
+                </div>
+            </form>
+  
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->

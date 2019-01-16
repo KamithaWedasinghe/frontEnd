@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row seperator">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+
+            <div class="col">Submited Boqs</div>
+            <div class="col">
+              <select class="custom-select" [(ngModel)]="stage">
+                <option selected disabled>Select Stage</option>
+                <option [value]="stage.stageName" *ngFor="let stage of stages">{{stage.stageName}}</option>
+                
+              </select>
+            </div>
+            <div class="col">
+              <select class="custom-select" [(ngModel)]="area">
+                <option selected disabled>Select Area</option>
+                <option [value]="area.areaName" *ngFor="let area of areas">{{area.areaName}}</option>
+                
+              </select>
+            </div>
+            <div class="col">
+              <select class="custom-select" [(ngModel)]="type">
+                <option selected disabled>Select Type</option>
+                <option value="supply">Supply</option>
+                <option value="implementation">Implement</option>
+               
+              </select>
+            </div>
+            <div class="col text-center">
+               <!--  <button *ngIf="admin" class="btn btn-outline-default mx-auto" (click)="search()">Search</button> -->
+                <button *ngIf="supplier" class="btn btn-outline-default mx-auto" (click)="createBoq()">Create</button>
+              </div>
+
+          </div>
+
+        </div>
+
+        <div class="card-body">
+
+          <div class="table-responsive">
+
+            <table class="table table-striped table-hover">
+
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Stage Name</th>
+                  <th scope="col">Area Name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">File Name</th>
+                  <!-- <th scope="col"></th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contractboq of contractboqs; index as i;" [ngClass]="{'selectedRow' : (isView && i=== number),'selectedRow' : (isView && i=== number)}">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{contractboq.stageName}}</td>
+                  <td>{{contractboq.areaName}}</td>
+                  <td>{{contractboq.type}}</td>
+                  <td>{{contractboq.contractBoqFileName}}</td>
+                  <!-- <td><button class="btn btn-sm btn-info-success" (click)="view(contractboq,i)">view</button></td> -->
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row seperator">
+  <div class="col">
+    <app-view-create-boq *ngIf="isCreateView"></app-view-create-boq>
+  </div>
+</div>

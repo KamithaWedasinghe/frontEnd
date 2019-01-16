@@ -1,0 +1,88 @@
+<div class="contianer">
+  <div class="card mx-auto seperator" style="width:80%">
+    <div class="card-header">
+      Sample Title
+    </div>
+    <div class="card-body">
+      <div class="row ">
+        <div class="col text-center">
+          <ul class="list-group box ">
+            <li class="list-group-item" (click)="showApprovedList()" >
+              <h6>Approved List</h6>
+              
+              <div *ngIf="hasAproved" class="table-responsive-sm table-responsive-md table-responsive-lg">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Boq Number</th>
+                        <th scope="col">Boq Reference</th>
+                        <th scope="col">Engineer Name</th>
+                        <th>status</th>
+                        <th></th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let approve of approvedList;index as i">
+                        <th scope="row">1</th>
+                        <td>{{approve.boqNumber}}</td>
+                        <td>{{approve.boqReference}}</td>
+                        <td>{{approve.engineerName}}</td>
+                        <td>pending...</td>
+                        <td><button class="btn btn-sm btn-info btn-link" (click)="viewBoq(approve)">View</button></td>
+                        
+      
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+<!--Rejected List-->
+      <div class="row seperator">
+        <div class="col text-center">
+          <ul class="list-group box ">
+            <li class="list-group-item" (click)="showRejectedList()" >
+              <h6>Approved List</h6>
+              
+              <div *ngIf="hasRejected" class="table-responsive-sm table-responsive-md table-responsive-lg">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Boq Number</th>
+                        <th scope="col">Boq Reference</th>
+                        <th scope="col">Engineer Name</th>
+                        <th>status</th>
+                        <th></th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let reject of rejectedList;index as i">
+                        <th scope="row">1</th>
+                        <td>{{reject.boqNumber}}</td>
+                        <td>{{reject.boqReference}}</td>
+                        <td>{{reject.engineerName}}</td>
+                        <td>pending...</td>
+                        <td><button class="btn btn-sm btn-info btn-link" (click)="viewBoq(reject)">View</button></td>
+                        
+      
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+</div>

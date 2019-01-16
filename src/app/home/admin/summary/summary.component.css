@@ -1,0 +1,156 @@
+.jumbotron{
+    padding: 0px;
+}
+.quantityError{
+    color: red;
+    font-weight: bold;
+    background-color: bisque;
+}
+
+.quantityValid{
+    border-bottom: 1px solid rgb(72, 246, 72);
+    background-color: transparent;
+    padding-left: 10%;
+    color : rgb(221, 92, 17);
+    width: 60%
+}
+.edited-quantity{
+    border: none;
+    background-color: transparent;
+    width: 50%;
+   
+}
+.edited-quantity:focus{
+    border-bottom: 1px solid rgb(72, 246, 72);
+    background-color: transparent;
+    padding-left: 10%;
+    color : rgb(221, 92, 17);
+    width: 60%;
+}
+.badge-primary{
+    font-size: 12px;
+    text-transform: capitalize;
+}
+.list-group-item{
+    font-size: 12px;
+}
+
+/* New implementation */
+.body-content{
+    border: 1px solid #000000;
+    margin-bottom: 15px;
+}
+.body-header-org{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.body-header-title{
+    margin-bottom: 0px;
+    font-weight: 600;
+    padding-left: 5px;
+}
+.drafter{
+    font-weight: bold;
+    padding-left: 2px;
+    margin-bottom: 0px;
+    font-size: 17px;
+}
+.border-top-bottom{
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+.border-bottom{
+    border-bottom: 1px solid #000000 !important;  
+}
+.border-top{
+    border-top: 1px solid #000000 !important; 
+}
+.clearfix {
+    overflow: auto;
+}
+.comment-section-container{
+    border: 1px solid black;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.upload-holder{
+    padding-left: 0px;
+}
+.comment-area:hover{
+    box-shadow: 5px 5px 3px grey;
+}
+.delete-rows{
+    background-color: rgb(255, 31, 31);
+    cursor: not-allowed;
+}
+
+
+/* The container */
+.container-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container-checkbox:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container-checkbox input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container-checkbox .checkmark:after {
+    left: 9px;
+    top: 2px;
+    width: 8px;
+    height: 18px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

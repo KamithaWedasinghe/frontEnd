@@ -1,0 +1,559 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          Boq Details
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xs-12 col-md-9 col-lg-9">
+              <div class="table-responsive-sm table-responsive-md table-responsive-lg">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Boq Number</th>
+                      <th scope="col">Boq Reference</th>
+                      <th scope="col">Engineer Name</th>
+                      <th>status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{boq.boqNumber}}</td>
+                      <td>{{boq.boqReference}}</td>
+                      <td>{{boq.engineerName}}</td>
+                      <td>{{boq?.isForwarded ? "forwaded" : "pending"}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                  <h5 class="">Selected List Items</h5>
+                  <div class="table-responsive-sm table-responsive-md table-responsive-lg">
+                    <table class="table ">
+                      <thead>
+                        <tr>
+                          <th scope="col">Erp Item Code</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Unit</th>
+                          <th scope="col">Unit Price</th>
+                          <th scope="col">Quantity</th>
+                          <th *ngIf="approvePerson" scope="col">edited Unit</th>
+                          <th scope="col">Erp Total Price</th>
+                          <!-- <th *ngIf="approvePerson" scope="col">edit</th> -->
+                          <th *ngIf="approvePerson" scope="col"></th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of list;index as i;" [ngClass]="{'delete-rows':!item?.data?.isBlocked}">
+                          <td>{{item.data.erpItemCode}}</td>
+                          <td>{{item.data.description}}</td>
+                          <td>{{item.data.unit}}</td>
+                          <td>{{item.data.erpUnitPrice}}</td>
+                          <td>{{item.data.quantity}}</td>
+                          <td style="width:10%">
+                            <input type="text" class="edited-quantity" [readonly]="isReadOnly" #inputName (blur)="quantityChecker(i,item,inputName.value)"
+                              [value]="item.data.editedQuantity" (click)="edit(i)" [ngClass]="{'quantityError': isInvalidQuantity && (i === editedRowNumber),
+                            'input' : !(isInvalidQuantity && (i === editedRowNumber))}">
+
+                          </td>
+                          <td>{{item.data.erpTotalPrice}}</td>
+                          <!-- <td *ngIf="approvePerson"><i class="fas fa-pencil-alt" ></i></td> -->
+                          <td ><i *ngIf="approvePerson && item?.data?.isBlocked" class="far fa-trash-alt" (click)="deleteOneRowItem(i,item)"></i></td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-3 col-lg-3 text-center">
+              <h2>boq summary</h2>
+              <ul class="list-group">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Organization :
+                    <span class="badge badge-primary badge-pill">{{boq.organization}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Created_date :
+                    <span class="badge badge-primary badge-pill">{{boq.created_at | date:'fullDate'}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Submited_by :
+                    <span class="badge badge-primary badge-pill">1</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Edited_by :
+                    <span class="badge badge-primary badge-pill">1</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Edited_date :
+                    <span class="badge badge-primary badge-pill">1</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    PO_number :
+                    <span class="badge badge-primary badge-pill">{{boq.ponumber}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    PO_number_added_by :
+                    <span class="badge badge-primary badge-pill">{{boq.isPonumber_by}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    PO_number_added_date :
+                    <span class="badge badge-primary badge-pill">{{boq.isPonumberDate | date:'medium'}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    PR_number :
+                    <span class="badge badge-primary badge-pill">{{boq.prnumber}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    PR_number_added_by :
+                    <span class="badge badge-primary badge-pill">{{boq.isPrnumber_by}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    PR_number_added_date :
+                    <span class="badge badge-primary badge-pill">{{boq.isPrnumberDate | date:'medium'}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Status
+                    <span class="badge badge-primary badge-pill" (click)="showStatus()">
+                      <i class="fas fa-chevron-down"></i>
+                    </span>
+                  </li>
+  
+                  <div *ngIf="hasStatus" class="color">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Forwarded:
+                      <span class="badge badge-primary badge-pill">
+                        {{boq.isForwarded}}
+                      </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Forwarded_by: 
+                      <span class="badge badge-primary badge-pill">{{boq.isForwarded_by}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Forwarded_date: 
+                      <span class="badge badge-primary badge-pill">{{boq.isForwardedDate |  date:'medium'}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Accepted
+                      <span class="badge badge-primary badge-pill">
+                        {{boq.isApproved}}
+                      </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Accepted_by:
+                      <span class="badge badge-primary badge-pill">
+                        {{boq.isApproved_by}}
+                      </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Accepted_date:
+                      <span class="badge badge-primary badge-pill">
+                        {{boq.isApprovedDate |  date:'medium' }}
+                      </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Rejected
+                      <span class="badge badge-primary badge-pill">
+                        {{!boq.isApproved_by}}
+                      </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Rejected_by:
+                      <span class="badge badge-primary badge-pill">
+                        {{boq.isApproved_by}}
+                      </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Rejected_date:
+                      <span class="badge badge-primary badge-pill">
+                        {{boq.isApprovedDate |  date:'medium' }}
+                      </span>
+                    </li>
+                  </div>
+                </ul>
+            </div>
+          </div>
+          <div class="row" [ngClass]="{ 'comment-section-container' : isComment }" *ngIf="approvePerson">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-2" for="comment">Comment</label>
+                <textarea [ngClass]="{'comment-area' : isComment,'col-md-6': !isComment }" name="comment" id="comment"
+                  [placeholder]="placeholder" cols="60" [rows]="rows" [(ngModel)]="comment" (click)="showCommentSection()"></textarea>
+                <!-- <app-tinymce [(ngModel)]='title' #tinymce='tinymce'></app-tinymce> -->
+              </div>
+              <div class="row">
+                  <div class="comment-section col-md-12" *ngIf="isComment">
+                    <div class="form-group row">
+                      <label class="col-md-2 col-sm-2" for="attachment">attachment</label>
+                      <!-- <input type="file" class="form-control" id="attachment"> -->
+                      <div class="col-md-8 col-sm-8 upload-holder">
+                        <div class="col-md-12">
+                          <div >
+                            <input type="file" ng2FileSelect [uploader]="uploader" />
+                          </div>
+                          
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div *ngIf="uploader.queue.length > 0" class="table-responsive">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Size</th>
+                                      <th>Progress</th>
+                                      <th>Status</th>
+                                      <th>Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let item of uploader.queue">
+                                      <td>
+                                        <strong>{{ item?.file?.name }}</strong>
+                                      </td>
+                                      <td [hidden]="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }}
+                                        MB</td>
+                                      <td [hidden]="uploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                          <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                      </td>
+                                      <td class="text-center">
+                                        <span *ngIf="item.isSuccess">
+                                          <i>Success</i>
+                                        </span>
+                                        <span *ngIf="item.isCancel">
+                                          <i>Cancel</i>
+                                        </span>
+                                        <span *ngIf="item.isError">
+                                          <i>Error</i>
+                                        </span>
+                                      </td>
+                                      <td nowrap>
+                                        <button type="button" style="margin-right:5px" class="btn btn-sm btn-success" (click)="item.upload()"
+                                          [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                          <span class="glyphicon glyphicon-upload"></span> Upload
+                                        </button>
+            
+                                        <button type="button" class="btn btn-sm btn-danger" (click)="item.remove()">
+                                          <span class="glyphicon glyphicon-trash"></span> Remove
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-md-2"></div>
+                      <div class="col-md-6">
+                        <button class="btn btn-sm btn-primary" style="margin-right:10px" (click)="addComment(commentValue)">Save</button>
+                        <button class="btn btn-sm btn-default" (click)="cancelComment()">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <ul class="list-inline text-center  mt-2 mt-md-2 mt-lg-2">
+            <li class="list-inline-item">
+              <button *ngIf="admin" [disabled]="boq?.isForwarded" type="button" (click)="forwardBoqToEngineer(boq)"
+                class="btn btn-sm btn-primary">Forward</button>
+            </li>
+            <li class="list-inline-item">
+              <button *ngIf="approvePerson" type="button" class="btn btn-sm btn-warning"  (click)="accept(boq)">Accept</button>
+            </li>
+            <li *ngIf="approvePerson" class="list-inline-item"><button type="button"  class="btn btn-sm btn-danger"
+                (click)="reject(boq)">Reject</button>
+            </li>
+            <li *ngIf="admin" class="list-inline-item">
+              <button type="button" class="btn btn-sm btn-success" [disabled]="boq?.isPrnumber" data-toggle="modal" data-target="#createPrnumber">Pr Number</button>
+            </li>
+            <li *ngIf="admin" class="list-inline-item">
+              <button type="button" class="btn btn-sm btn-secondary" [disabled]="boq?.isPonumber" data-toggle="modal" data-target="#createPonumber">Po Number</button>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--add pr number model-->
+<div class="modal fade" id="createPrnumber" tabindex="-1" role="dialog" aria-labelledby="createPrnumberTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createStageTitle">Add Pr Number</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="form-group">
+          <input type="text" name="prnumber" [(ngModel)]="prnumber" class="form-control" id="prnumber" 
+            placeholder="Pr Number">
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success mx-auto" (click)="addPrNumber()"  data-dismiss="modal" aria-label="Close">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--add po number model-->
+<div class="modal fade" id="createPonumber" tabindex="-1" role="dialog" aria-labelledby="createPonumberTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createStageTitle">Add Po Number</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="form-group">
+          <input type="text" name="ponumber" [(ngModel)]="ponumber" class="form-control" id="ponumber" 
+            placeholder="Po Number">
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success mx-auto" (click)="addPoNumber()"  data-dismiss="modal" aria-label="Close">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="container">
+  <div class="section-one">
+      <div class="row">
+          <div class="col">
+            <div class="header-logos">
+              <img src="assets/huawei.jpg" alt="huawei" class="float-right">
+              
+              <img src="assets/mobitel.png" alt="mobitel" class="float-left">
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col">
+            <div class="header text-center">
+              <h1>Mobitel</h1>
+              <h5>ERP First BOQ Mobitel S8</h5>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="container-checkbox">Civil
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="col">
+            <label class="container-checkbox">Telecom
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="col">
+            <label class="container-checkbox">Quality
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="col">
+            <label class="container-checkbox">Mechanical
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="col">
+            <label class="container-checkbox">Electrical / Power
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+      
+        </div>
+        <div class="row body-content">
+          <div class="col-sm-12 border-bottom">
+            <h4 class="text-center body-header-org">ZTE corporation</h4>
+          </div>
+          <div class="col-sm-12">
+            <div class="body-header">
+              <p class="submittal-no body-header-title">Submittal No : </p>
+              <p class="date body-header-title">Date : </p>
+              <p class="project-title body-header-title">Project Title : </p>
+              <p class="body-header-title">Package Name : </p>
+            </div>
+          </div>
+          <div class="col-sm-12 border-top-bottom">
+            <h4 class="text-center body-header-org">for ZTE corporation</h4>
+          </div>
+          <div class="col-sm-12">
+      
+            <div class="body-header-section-two">
+              
+              <p class="para">
+                  Dear Sir,
+                  asadafafafasdasdad hjhdjhasjkdasd asdhjhjkjhjkasd kjkajkdasjkdhsajkdh 
+                  sadasdsa
+                  thanks!
+                </p>
+      
+            </div>
+      
+      
+          </div>
+          <div class="col-sm-12 border-top">
+            <p class="drafter">Drafter : </p>
+          </div>
+          <div class="col-sm-12 border-top">
+            <div class="row">
+              <div class="col">Telephone No :</div>
+              <div class="col">Name : </div>
+              <div class="col">Date : </div>
+            </div>
+          </div>
+          <div class="col-sm-12 border-top-bottom">
+            <div class="body-header">
+              <h4 class="text-center body-header-org">Mobitel</h4>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <p>Approval Codes:</p>
+            <div class="row">
+              <div class="col">
+                <label class="container-checkbox">A
+                  <input type="checkbox" checked="checked">
+                  <span class="checkmark"></span>
+                </label>
+                <small class="accept-reject">accepted</small>
+              </div>
+              <div class="col">
+                <label class="container-checkbox">B
+                  <input type="checkbox" checked="checked">
+                  <span class="checkmark"></span>
+                </label>
+                <small class="accept-with">Accepted with Comments Incorporate Correction and Proceed</small>
+              </div>
+              <div class="col">
+                <label class="container-checkbox">C
+                  <input type="checkbox" checked="checked">
+                  <span class="checkmark"></span>
+                </label>
+                <small class="accept-with">Accepted with Comments Incorporate Correction and Resubmit</small>
+              </div>
+              <div class="col">
+                <label class="container-checkbox">D
+                  <input type="checkbox" checked="checked">
+                  <span class="checkmark"></span>
+                </label>
+                <small class="accept-reject">Rejected</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 border-top-bottom">
+            <p>Comments [Please use additional sheets if required]</p>
+          </div>
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col">Telephone No :</div>
+              <div class="col">Name : </div>
+              <div class="col">Date : </div>
+            </div>
+          </div>
+        </div>
+  </div>
+
+
+  <div class="section-two">
+      <div class="row">
+          <div class="col">
+            <div class="clearfix">
+              <img src="assets/huawei.jpg" alt="huawei" height="50px" class="float-left">
+              
+              <p class="float-right">Submittal No : 123/865</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container-fluid">
+              <div class="table-responsive-sm table-responsive-md table-responsive-lg">
+                <table class="table ">
+                  <thead>
+                    <tr>
+                      <th scope="col">Erp Item Code</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Unit Price</th>
+                      <th scope="col">Unit</th>
+
+                      <th scope="col">Erp Total Price</th>
+
+                      
+                      <th *ngIf="approvePerson" scope="col">edited Unit</th>
+                      <th *ngIf="approvePerson" scope="col">edit</th>
+                      <th *ngIf="approvePerson" scope="col">delete</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of list;index as i;">
+                      <td>{{item.data.erpItemCode}}</td>
+                      <td>{{item.data.description}}</td>
+                      <td>{{item.data.quantity}}</td>
+                      <td>{{item.data.unitPrice}}</td>
+                      <td>{{item.data.unit}}</td>
+                      <td>{{item.data.erpTotalPrice}}</td>
+                      
+                      <td style="width:10%">
+                        <input type="text" [readonly]="isReadOnly" #inputName (blur)="quantityChecker(item.data.quantity,inputName.value)"
+                          [value]="item.data.quantity" (click)="edit(i)" [ngClass]="{'quantityError': isInvalidQuantity && (i === editedRowNumber),
+                        'input' : !(isInvalidQuantity && (i === editedRowNumber))}">
+
+                      </td>
+                      <td *ngIf="approvePerson"><i class="fas fa-pencil-alt"  (click)="saveEdit(i,item,inputName.value)"></i></td>
+                      <td *ngIf="approvePerson"><i class="far fa-trash-alt" (click)="deleteOneRowItem(i,item)"></i></td>
+
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+  </div>
+  
+
+</div> -->

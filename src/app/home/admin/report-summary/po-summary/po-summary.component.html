@@ -1,0 +1,76 @@
+<div class="container-fluid">
+
+  <!--cartList modal -->
+
+
+  <div class="row">
+    <div class="col">
+      <ul class="list-inline">
+        <li class="list-inline-item" *ngFor="let dataSets of singleContractBoq?.contractBoqFileData; index as i;">
+          <button class="btn btn-sm btn-link" [ngClass]="{'clicked': i === clickedNumber}" (click)="setSheetDataToView(dataSets?.dataList,i)">
+            {{dataSets.sheetName}}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-xs-12 col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="table-responsive">
+
+            <table class="table table-striped table-hover">
+
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Erp Item Code</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Unit</th>
+                  <th scope="col">Unit Price</th>
+                  <th scope="col">Ordered Quantity</th>
+                  <th scope="col">Remaining Quantity</th>
+                  <th scope="col">editor</th>
+                  <th scope="col">Erp Total Price</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dataList of sheetData;index as i;">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{dataList?.data?.erpItemCode}}</td>
+                  <td>{{dataList?.data?.description}}</td>
+                  <td>{{dataList?.data?.unit}}</td>
+                  <td>{{dataList?.data?.unitPrice}}</td>
+                  <td>{{dataList?.data?.quantity}}</td>
+                  <td style="width:10%">
+                    <input type="text" [readonly]="isReadOnly" #inputName (blur)="quantityChecker(dataList?.data?.quantity,inputName.value)"
+                      [value]="dataList?.data?.quantity" (click)="edit(i)" [ngClass]="{'quantityError': isInvalidQuantity && (i === editedRowNumber),
+                  'input' : !(isInvalidQuantity && (i === editedRowNumber))}">
+
+                  </td>
+                  <td>{{dataList?.data?.erpTotalPrice}}</td>
+                  <td>
+                    <label class="container">
+                      <input type="checkbox" (change)="addToItemList($event,dataList)">
+                      <span class="checkmark"></span>
+                    </label>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

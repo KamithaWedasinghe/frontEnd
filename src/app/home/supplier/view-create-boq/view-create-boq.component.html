@@ -1,0 +1,144 @@
+<div class="container-fluid">
+
+  <!--cartList modal -->
+  <div class="modal fade" id="cartList" tabindex="-1" role="dialog" aria-labelledby="cartListTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartListTitle">Selected List Items <small>{{count}}</small></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-item-list-cart [isActiveCreateBoqChild]="isActiveCreateBoq"></app-item-list-cart>
+        </div>
+        <div class="modal-footer text-center">
+          <button *ngIf="!isActiveCreateBoq" type="button" class="btn btn-primary mx-auto" (click)="gotoCreateBoq()">Continue</button>
+          <button *ngIf="isActiveCreateBoq" type="button" class="btn btn-warning mx-auto" (click)="goback()">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+     <ul class="list-inline">
+       <li class="list-inline-item" *ngFor="let contractBoq of contractBoqs; index as i;">
+          <div class="dropdown" >
+              <button class="btn btn-secondary dropdown-toggle" type="button" [id]="contractBoqFileName" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" (click)="showSelectedConBoqFileName(i)" [ngClass]="{'drop-down-conBoq' : i === selectedConBoqNumber }">
+                {{contractBoq.contractBoqFileName}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="contractBoqFileName">
+                <a class="dropdown-item" *ngFor="let dataSets of contractBoq?.contractBoqFileData; index as i;">
+                  <button class="btn btn-sm btn-link" [ngClass]="{'clicked': i === clickedNumber && dataSets.sheetName === selectSheetName }" 
+                  (click)="setSheetDataToView(dataSets?.dataList,i,dataSets.sheetName)">
+                    {{dataSets.sheetName}}
+                  </button>
+                </a>
+              </div>
+            </div>
+       </li>
+       <li class="list-inline-item">
+          <span class="fa-stack fa-1x" data-toggle="modal" data-target="#cartList">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fas fa-list-alt fa-stack-1x fa-inverse"></i>
+            <span class="badge">{{count}}</span>
+          </span>
+        </li>
+     </ul>
+     
+
+      <!-- <ul class="list-item-group">
+        <li class="list-item" *ngFor="let contractBoq of contractBoqs; index as i;">
+          <button class="btn btn-sm btn-link" [ngClass]="{'clicked': i === clickedNumber}" (click)="showSheetName()">
+            {{contractBoq.contractBoqFileName}}
+          </button>
+          <ul *ngIf="hasSheetNames">
+              <li class="list-inline-item" *ngFor="let dataSets of contractBoq?.contractBoqFileData; index as i;">
+                <button class="btn btn-sm btn-link" [ngClass]="{'clicked': i === clickedNumber}" (click)="setSheetDataToView(dataSets?.dataList,i)">
+                  {{dataSets.sheetName}}
+                </button>
+              </li>
+            </ul>
+        </li>
+        
+        <li class="list-item">
+          <span class="fa-stack fa-1x" data-toggle="modal" data-target="#cartList">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fas fa-list-alt fa-stack-1x fa-inverse"></i>
+            <span class="badge">{{count}}</span>
+          </span>
+        </li>
+
+        <li class="list-inline-item" *ngFor="let dataSets of contractBoq?.contractBoqFileData; index as i;">
+            <button class="btn btn-sm btn-link" [ngClass]="{'clicked': i === clickedNumber}" (click)="setSheetDataToView(dataSets?.dataList,i)">
+              {{dataSets.sheetName}}
+            </button>
+          </li>
+           
+      </ul> -->
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="showDataList">
+
+    <div class="col-xs-12 col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="table-responsive">
+
+            <table class="table table-striped table-hover">
+
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Erp Item Code</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Unit</th>
+                  <th scope="col">Unit Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Edited Quantity</th>
+                  <th scope="col">Erp Total Price</th>
+                  <th scope="col">Calculate Total Price</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dataList of sheetData;index as i;">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{dataList?.data?.erpItemCode}}</td>
+                  <td>{{dataList?.data?.description}}</td>
+                  <td>{{dataList?.data?.unit}}</td>
+                  <td>{{dataList?.data?.erpUnitPrice}}</td>
+                  <td>{{dataList?.data?.quantity}}</td>
+                  <td style="width:10%">
+                    <input type="text" [readonly]="isReadOnly" #inputName (blur)="quantityChecker(dataList,dataList?.data?.editedQuantity,inputName.value)"
+                      [value]="dataList?.data?.editedQuantity" (click)="edit(i)" [ngClass]="{'quantityError': isInvalidQuantity && (i === editedRowNumber),
+                  'input' : !(isInvalidQuantity && (i === editedRowNumber))}">
+
+                  </td>
+                  <td>{{dataList?.data?.erpTotalPrice}}</td>
+                  <td>{{dataList?.data?.erpTotalPrice * inputName.value}}</td>
+                  <td><label class="container">
+                      <input type="checkbox" [disabled]="isDisabledByWrongQuantity && i === editedRowNumber" (change)="addToItemList($event,dataList)">
+                      <span class="checkmark"></span>
+                    </label>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

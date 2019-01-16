@@ -1,0 +1,11 @@
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand">Boq Tracking System</a>
+  <a *ngIf="admin" class="logedUser">Admin : {{name}}</a>
+  <a *ngIf="approvePerson" class="logedUser">Approve Person : {{name}}</a>
+  <a *ngIf="supplier" class="logedUser">Supplier : {{name}}</a>
+
+  <form class="form-inline">
+    <button class="btn btn-outline-success my-2 my-sm-0" (click)="auth.logout()">logOut</button>
+  </form>
+</nav>
+<router-outlet></router-outlet>
